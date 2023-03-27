@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "336692729969",
+    "project_id": "disaster-saver-6d25d",
+    "storage_bucket": "disaster-saver-6d25d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336692729969:android:871e0361d96cb5a31b63d0",
+        "android_client_info": {
+          "package_name": "com.firstapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336692729969-v6a1tlnro85286406aa08g51t48e7lvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfieL1csYiFlEUB_ctBghXdecXwcGmUnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336692729969-v6a1tlnro85286406aa08g51t48e7lvp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336692729969:android:086afe70303bb4181b63d0",
+        "android_client_info": {
+          "package_name": "com.firstapp.disastersaver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336692729969-i6i09hm0k3m1kemhetsu3m7l93g0d7q0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firstapp.disastersaver",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "336692729969-v6a1tlnro85286406aa08g51t48e7lvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfieL1csYiFlEUB_ctBghXdecXwcGmUnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336692729969-v6a1tlnro85286406aa08g51t48e7lvp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
