@@ -8,6 +8,7 @@ import {
   Image,
   useWindowDimensions,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CustomButton from './customcomponent/customButton';
@@ -245,15 +246,18 @@ const AffecteesPosts = ({navigation}) => {
             activeOpacity={0.4}
             underlayColor="#000"
             onPress={() => {
-              if (imageData !== null && galleryData !== null) {
-                navigation.navigate('ShowPosts');
+              if ((imageData && imageData && imageData.assets && imageData.assets.length > 0 !== null) && galleryData && galleryData.assets && galleryData.assets.length > 0 !== null) {
+                alert('Image from camera and gallery upload sucessfully')
+                navigation.navigate('Home');
                 uploadData();
+              } else {
+                alert('Please select an image from camera and gallery');
               }
             }}>
             <Text
               style={{
                 backgroundColor:
-                  imageData !== null && galleryData !== null
+                  ((imageData && imageData && imageData.assets && imageData.assets.length > 0 !== null) && (galleryData && galleryData.assets && galleryData.assets.length > 0 !== null))
                     ? '#880808'
                     : '#ae655a',
                 width: '107%',
@@ -261,7 +265,7 @@ const AffecteesPosts = ({navigation}) => {
                 color: '#fff',
                 fontSize: 20,
                 fontWeight: 'bold',
-                height: 45,
+                height: 51,
                 padding: 10,
                 paddingLeft: 15,
                 borderRadius: 20,
@@ -284,18 +288,19 @@ const AffecteesPosts = ({navigation}) => {
           />
         </View>
         <View>
-          {imageData && (
+         {imageData!==null ?  (imageData && imageData.assets && imageData.assets.length > 0 && (
             <Image
-              style={[styles.imageSize, {height: height * 0.25}]}
+              style={[styles.imageSize, {height: height * 0.25}, {resizeMode:"contain"}]}
               source={{uri: imageData.assets[0].uri}}
-            />
-          )}
-          {galleryData && (
+            />)
+          ): null} 
+      
+          {galleryData !==null ?( galleryData && galleryData.assets && galleryData.assets.length > 0 && (
             <Image
-              style={[styles.imageSize, {height: height * 0.25}]}
+              style={[styles.imageSize, {height: height * 0.25}, {resizeMode:"contain"}]}
               source={{uri: galleryData.assets[0].uri}}
-            />
-          )}
+            />)
+          ):null}
 
           {/* {images.map((image) => (
         <Image key={image} source={{ uri: image }} style={[styles.imageSize]} />

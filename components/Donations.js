@@ -128,7 +128,10 @@ const Donations = ({navigation}) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} underlayColor="#000">
+          <TouchableOpacity activeOpacity={0.5} underlayColor="#000"
+           onPress={() => {
+            navigation.navigate('FDRPDonation');
+          }}>
             <View style={[styles.ngoalt]}>
               <Image
                 source={require('../assets/images/fast-rural-developmnt.jpg')}
@@ -138,7 +141,8 @@ const Donations = ({navigation}) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.5} underlayColor="#000">
+          <TouchableOpacity activeOpacity={0.5} underlayColor="#000"
+          >
             <View style={[styles.ngoalt]}>
               <Image
                 source={require('../assets/images/JDC.jpg')}

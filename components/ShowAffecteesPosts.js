@@ -1,14 +1,16 @@
-import {View, Text, FlatList,Image,ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { View, Text, FlatList, Image, ScrollView, StyleSheet, Dimensions,TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
-const ShowAffecteesPosts = () => {
-  const [post , setpost] = useState([])
+const { width, height } = Dimensions.get('window');
+
+const ShowAffecteesPosts = ({ navigation }) => {
+  const [post, setpost] = useState([])
   useEffect(() => {
     getData();
   }, []);
   const getData = () => {
-    let tempData =[]
+    let tempData = []
     firestore()
       .collection('posts')
       .get()
@@ -26,33 +28,99 @@ const ShowAffecteesPosts = () => {
         setpost(tempData)
       });
   };
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const viewImage = (uri) => {
+    navigation.navigate('Showimage', { uri: uri });
+    console.log(uri)
+  }
+
   return (
-
-    <View style={{flex:1}}>
+    <View style={styles.container}>
       <FlatList
-      data={post}
-      renderItem={({item,index})=>{
-        return(
-          <ScrollView>
-          <View style={{flex:1, width:"90%", height:200, alignSelf:"center", margin:20 }}>
-            <Text style={{color:"#000", fontSize: 20,
-                fontWeight: 'bold' }}>{item.name}</Text>
-            <Text style={{color:"#000", fontSize: 20,
-                fontWeight: 'bold'}}> {item.caption}</Text>
-                <View style={{flex:1, flexDirection:"row"}}>
-            <Image source={{uri: item.galleryimage}} style={{width:"50%", height:"100%", borderRadius:20,marginEnd:20 , justifyContent:"space-between"}}></Image>
-            <Image source={{uri: item.cameraimage}} style={{width:"50%", height:"100%", borderRadius:20, marginLeft:-2 }}></Image>
-            </View>
-          </View>
-          </ScrollView>
-        )
-      }}
-
+        data={post}
+        renderItem={({ item, index }) => {
+          return (
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+              <View style={styles.postContainer}>
+                <Text style={styles.postTitle}>{item.name}</Text>
+                <Text style={styles.postCaption}>{item.caption}</Text>
+                <View style={styles.imageContainer}>
+                  {imageLoaded &&
+                    <TouchableWithoutFeedback onPress={() => viewImage(item.galleryimage)}>
+                      <Image source={{ uri: item.galleryimage }} style={styles.image} onLoad={() => setImageLoaded(true)}></Image>
+                    </TouchableWithoutFeedback>
+                  }
+                  {!imageLoaded &&
+                    <Image source={{ uri: item.galleryimage }} style={styles.image} onLoad={() => setImageLoaded(true)}></Image>
+                  }
+                  {imageLoaded &&
+                    <TouchableWithoutFeedback onPress={() => viewImage(item.cameraimage)}>
+                      <Image source={{ uri: item.cameraimage }} style={styles.image} onLoad={() => setImageLoaded(true)}></Image>
+                    </TouchableWithoutFeedback>
+                  }
+                  {!imageLoaded &&
+                    <Image source={{ uri: item.cameraimage }} style={styles.image} onLoad={() => setImageLoaded(true)}></Image>
+                  }
+                </View>
+              </View>
+            </ScrollView>
+          )
+        }}
       />
-
     </View>
-
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#EDEADE'
+  },
+  postContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  postTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  postCaption: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: height * 0.4,
+  },
+  image: {
+    flex: 1,
+    height: '100%',
+    borderRadius: 10,
+    marginHorizontal: 5,
+    resizeMode:"contain"
+  },
+});
 
 export default ShowAffecteesPosts;
