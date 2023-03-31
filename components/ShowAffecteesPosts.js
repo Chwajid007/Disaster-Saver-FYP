@@ -46,6 +46,8 @@ const ShowAffecteesPosts = ({ navigation }) => {
               <View style={styles.postContainer}>
                 <Text style={styles.postTitle}>{item.name}</Text>
                 <Text style={styles.postCaption}>{item.caption}</Text>
+                <Text style={styles.postlatlong}>Latitude = {item.latitude}</Text>
+                <Text style={styles.postlatlong}>Longitude = {item.longitude}</Text>
                 <View style={styles.imageContainer}>
                   {imageLoaded &&
                     <TouchableWithoutFeedback onPress={() => viewImage(item.galleryimage)}>
@@ -81,11 +83,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#EDEADE'
+    backgroundColor: '#fff'
   },
   postContainer: {
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#EDEADE',
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
@@ -120,6 +122,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 5,
     resizeMode:"contain"
+  },
+  postlatlong: {
+    fontSize: 18,
+    marginBottom: 20,
   },
 });
 

@@ -3,10 +3,13 @@ import {View, Text, Button, StyleSheet} from 'react-native';
 import {Linking} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid, Platform} from 'react-native';
+import { ToastAndroid } from 'react-native';
+import AffecteesPosts from '../AffecteesPosts';
 
 const Currentlocation = () => {
   const [location, setLocation] = useState({
-    latitude: 31.600927238449867,
+    //latitude: 1,
+     latitude: 31.600927238449867,
     longitude: 73.0365842424535,
   });
 
@@ -28,16 +31,18 @@ const Currentlocation = () => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('Location permission granted');
+          ToastAndroid.show('Location permission granted', ToastAndroid.LONG);
+          getOneTimeLocation();
           // if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-            position => {
-              console.log('Current position: ', position);
-            },
-            error => {
-              console.warn(error.code, error.message);
-            },
-            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-          );
+          // Geolocation.getCurrentPosition(
+          //   position => {
+          //     console.log('Current position: ', position);
+          //   },
+          //   error => {
+          //     console.warn(error.code, error.message);
+          //   },
+          //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          // );
           // } else {
           //   console.log(
           //     'Geolocation is not supported by this browser or device.',
@@ -45,6 +50,7 @@ const Currentlocation = () => {
           // }
         } else {
           console.log('Location permission denied');
+          ToastAndroid.show('Location permission denied', ToastAndroid.LONG);
         }
       } catch (err) {
         console.warn(err);
@@ -73,19 +79,29 @@ const Currentlocation = () => {
   //   };
   // }, []);
 
-  // const getOneTimeLocation = () => {
-  //   Geolocation.getCurrentPosition(
-  //     position => {
-  //       console.log(position);
-  //       setLocation({
-  //         latitude: position.coords.latitude,
-  //         longitude: position.coords.longitude,
-  //       });
-  //     },
-  //     error => console.log(error),
-  //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-  //   );
-  // };
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+
+      (position) => {
+        ToastAndroid.show('position', ToastAndroid.LONG);
+        console.log(position.coords.latitude," ",position.coords.longitude);
+        // ToastAndroid.show(position, ToastAndroid.LONG);
+        setLocation(
+          {
+            "latitude": position.coords.latitude,
+            
+            "longitude": position.coords.longitude,
+          }
+          // {
+          //   latitude: position.coords.latitude,
+          //   longitude: position.coords.longitude,
+          // }
+        );
+      },
+      error => console.log(error),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    );
+  };
 
   const shareLocation = () => {
     const url = `https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`;
@@ -94,6 +110,7 @@ const Currentlocation = () => {
 
   return (
     <View style={styles.container}>
+      <AffecteesPosts latitude={location.latitude} longitude={location.longitude}/>
       <Button title="Share Location" onPress={shareLocation} />
     </View>
   );

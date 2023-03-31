@@ -22,12 +22,23 @@ import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Linking} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+import { Platform} from 'react-native';
+import { ToastAndroid } from 'react-native';
+
+
+
 
 let token = '';
 let name = '';
 let username = '';
 
-const AffecteesPosts = ({navigation}) => {
+const AffecteesPosts = ({navigation,latitude,longitude}) => {
+
+  const lat = parseFloat(latitude);
+  console.log({latitude})
+  const long = parseFloat(longitude);
   useEffect(() => {
     getToken();
   }, []);
@@ -99,6 +110,8 @@ const AffecteesPosts = ({navigation}) => {
         cameraimage: url,
         galleryimage: url_gallery,
         caption: caption,
+        latitude: location.latitude,
+        longitude: location.longitude,
         name: name,
         email: username,
       })
@@ -107,6 +120,123 @@ const AffecteesPosts = ({navigation}) => {
         console.log('post added!');
       });
   };
+
+
+
+
+
+// location
+
+const [location, setLocation] = useState({
+  //latitude: 1,
+   latitude: null,
+   longitude:null,
+  //  latitude: 31.600927238449867,
+  // longitude: 73.0365842424535,
+});
+
+useEffect(() => {
+  requestLocationPermission();
+}, []);
+
+async function requestLocationPermission() {
+  if (Platform.OS === 'android') {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'This app needs access to your location',
+          buttonPositive: 'OK',
+          buttonNegative: 'Cancel',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Location permission granted');
+        ToastAndroid.show('Location permission granted', ToastAndroid.SHORT);
+        getOneTimeLocation();
+        // if (navigator.geolocation) {
+        // Geolocation.getCurrentPosition(
+        //   position => {
+        //     console.log('Current position: ', position);
+        //   },
+        //   error => {
+        //     console.warn(error.code, error.message);
+        //   },
+        //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        // );
+        // } else {
+        //   console.log(
+        //     'Geolocation is not supported by this browser or device.',
+        //   );
+        // }
+      } else {
+        console.log('Location permission denied');
+        ToastAndroid.show('Location permission denied', ToastAndroid.SHORT);
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+}
+// useEffect(() => {
+//   const requestLocationPermission = async () => {
+//     try {
+//       const granted = await PermissionsAndroid.request(
+//         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+//         {
+//           title: 'Location Permission',
+//           message: 'This app needs access to your location',
+//         },
+//       );
+//       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+//         console.log('Location permission granted');
+//         getOneTimeLocation();
+//       } else {
+//         console.log('Location permission denied');
+//       }
+//     } catch (err) {
+//       console.warn(err);
+//     }
+//   };
+// }, []);
+
+const getOneTimeLocation = () => {
+  Geolocation.getCurrentPosition(
+
+    (position) => {
+      ToastAndroid.show('position', ToastAndroid.SHORT);
+      console.log(position.coords.latitude," ",position.coords.longitude);
+      // ToastAndroid.show(position, ToastAndroid.LONG);
+      setLocation(
+        {
+          latitude: position.coords.latitude,
+          
+          longitude: position.coords.longitude,
+        }
+        // {
+        //   latitude: position.coords.latitude,
+        //   longitude: position.coords.longitude,
+        // }
+      );
+    },
+    error => console.log(error),
+    {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
+  );
+};
+
+const shareLocation = () => {
+  const url = `https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`;
+  Linking.openURL(url);
+};
+
+
+
+
+
+
+
+
 
   // firestore()
   //   .collection('posts')
@@ -287,7 +417,13 @@ const AffecteesPosts = ({navigation}) => {
             style={styles.textstyle}
           />
         </View>
+
+
+        <View><Text style={{fontSize:23 ,fontWeight:"bold" ,margin:7, color:"#880808"}}>Latitude = {location.latitude}</Text>
+        <Text style={{fontSize:23 ,fontWeight:"bold" ,margin:7, color:"#880808"}}>Longitude = {location.longitude}</Text></View>
         <View>
+
+
          {imageData!==null ?  (imageData && imageData.assets && imageData.assets.length > 0 && (
             <Image
               style={[styles.imageSize, {height: height * 0.25}, {resizeMode:"contain"}]}
@@ -334,7 +470,8 @@ const AffecteesPosts = ({navigation}) => {
             activeOpacity={0.4}
             underlayColor="#000"
             onPress={() => {
-              navigation.navigate('Location');
+              // navigation.navigate('Location');
+              shareLocation()
             }}>
             <Ionicons
               name="md-location-outline"
@@ -363,6 +500,7 @@ const styles = StyleSheet.create({
   textstyle: {
     fontSize: 25,
     margin: 15,
+    color:"#880808"
   },
   imagealt: {
     flex: 1,
