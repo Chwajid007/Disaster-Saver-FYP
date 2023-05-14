@@ -34,11 +34,8 @@ let token = '';
 let name = '';
 let username = '';
 
-const AffecteesPosts = ({navigation,latitude,longitude}) => {
+const AffecteesPosts = ({navigation}) => {
 
-  const lat = parseFloat(latitude);
-  console.log({latitude})
-  const long = parseFloat(longitude);
   useEffect(() => {
     getToken();
   }, []);

@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, ScrollView, StyleSheet, Dimensions,TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, ScrollView, StyleSheet, Dimensions,TouchableWithoutFeedback,TouchableOpacity,Linking } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
@@ -48,6 +48,20 @@ const ShowAffecteesPosts = ({ navigation }) => {
                 <Text style={styles.postCaption}>{item.caption}</Text>
                 <Text style={styles.postlatlong}>Latitude = {item.latitude}</Text>
                 <Text style={styles.postlatlong}>Longitude = {item.longitude}</Text>
+                <TouchableOpacity 
+                onPress={()=>{
+                  const url=`https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`
+                  Linking.openURL(url);
+                }}><Text style={{width: '20%',
+                marginBottom: '5%',
+                backgroundColor: '#880808',
+                color: '#fff',
+                fontSize: 15,
+                fontWeight: 'bold',
+                height: 31,
+                padding: 5,
+                paddingLeft: 15,
+                borderRadius: 10,}}>MAP</Text></TouchableOpacity>
                 <View style={styles.imageContainer}>
                   {imageLoaded &&
                     <TouchableWithoutFeedback onPress={() => viewImage(item.galleryimage)}>

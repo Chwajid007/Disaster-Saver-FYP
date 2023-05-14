@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
   };
 
   const onForgotPassword = () => {
-    console.warn('Forgot Password');
+   // console.warn('Forgot Password');
   };
 
   const isValidObjField = obj => {
@@ -141,12 +141,12 @@ const Login = ({navigation}) => {
           </View>
         </View>
 
-        <CustomButton
+        {/* <CustomButton
           onPress={onForgotPassword}
           text="Forgot Password?"
           container="BTN"
           type="TERTIARY"
-        />
+        /> */}
 
         <CustomButton onPress={submitForm} text="LOGIN" container="BTN" />
 
