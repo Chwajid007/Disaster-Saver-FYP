@@ -40,6 +40,19 @@ const HomePage = ({navigation}) => {
         </View>
         {/* <View style={{flex:0.2}}> 
     </View> */}
+
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity
+            activeOpacity={0.4}
+            underlayColor="#000"
+            onPress={() => {
+              navigation.navigate('ShowChat');
+            }}
+            style={styles.blueChatButton}>
+            <Text style={styles.blueChatButtonText}>BlueChatApp</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.Content}>
           <TouchableOpacity
             activeOpacity={0.4}
@@ -125,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDEADE',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    marginTop: 35,
+    marginTop: 5,
   },
 
   Content1: {
@@ -147,21 +160,26 @@ const styles = StyleSheet.create({
   btn1: {
     backgroundColor: '#880808',
     fontFamily: 'FiraSans-Bold',
-    height: 175,
-    width: 160,
+    height: 155,
+    width: 150,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     borderRadius: 20,
-    //     shadowColor: "#000",
-    // shadowOffset: {
-    // 	width: 0,
-    // 	height: 5,
-    // },
-    // shadowOpacity: 0.36,
-    // shadowRadius: 6.68,
-
-    //  elevation: 18,
+  },
+  blueChatButton: {
+    backgroundColor: '#880808',
+    height: 70,
+    width: 330,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 45,
+  },
+  blueChatButtonText: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
   },
 });
 

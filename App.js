@@ -20,6 +20,7 @@ import SaylaniDonation from './components/customcomponent/SyalaniDonations';
 import EdhiDonation from './components/customcomponent/EdhiDonations';
 import FRDPDonation from './components/customcomponent/FRDPdonations';
 import Showimage from './components/customcomponent/Showimage';
+import BlueChatApp from './components/BlueChatApp';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -43,7 +44,8 @@ const App = () => {
         <Stack.Screen name="SaylaniDonation" component={SaylaniDonation} />
         <Stack.Screen name="EdhiDonation" component={EdhiDonation} />
         <Stack.Screen name="FDRPDonation" component={FRDPDonation} />
-        <Stack.Screen name="Showimage" component={Showimage} />
+        <Stack.Screen name="Showimage" component={Showimage}/>
+        <Stack.Screen name="ShowChat" component={BlueChatApp} />
 
       </Stack.Navigator>
     </NavigationContainer>
