@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {handleButtonPress} from './BlueChatApp';
 
 import {
   StyleSheet,
@@ -17,6 +18,9 @@ import {
 } from 'react-native';
 
 const HomePage = ({navigation}) => {
+  const callHandleButtonPress = () => {
+    handleButtonPress();
+  };
   const {height} = useWindowDimensions();
   return (
     <View
@@ -45,11 +49,11 @@ const HomePage = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.4}
             underlayColor="#000"
-            onPress={() => {
-              navigation.navigate('ShowChat');
-            }}
-            style={styles.blueChatButton}>
-            <Text style={styles.blueChatButtonText}>BlueChatApp</Text>
+            onPress={callHandleButtonPress
+            }
+            style={styles.blueChatButton} >
+            <MaterialCommunityIcons name="bluetooth-transfer" size={39} color="#ffff" />
+            <Text style={styles.blueChatButtonText}>Connect Nearby</Text>
           </TouchableOpacity>
         </View>
 
@@ -175,11 +179,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 45,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    
   },
   blueChatButtonText: {
     color: 'white',
     fontSize: 22,
     fontWeight: 'bold',
+    paddingRight:25,
   },
 });
 
